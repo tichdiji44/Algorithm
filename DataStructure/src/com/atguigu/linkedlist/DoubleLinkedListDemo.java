@@ -29,6 +29,11 @@ public class DoubleLinkedListDemo {
         doubleLinkedList.del(4);
         System.out.println("删除后的链表情况~~~");
         doubleLinkedList.list();
+
+        // 按序加入
+        doubleLinkedList.addByOrder(new HeroNode2(5, "123", "123"));
+        System.out.println("按序加入后的链表情况~~~");
+        doubleLinkedList.list();
     }
 
 }
@@ -151,6 +156,38 @@ class DoubleLinkedList {
         } else {
             System.out.printf("要删除的 %d 节点不存在\n", no);
         }
+    }
+
+    public void addByOrder(HeroNode2 heroNode) {
+        // 因为头节点不能动，因此我们仍然通过一个辅助指针(变量)来帮助
+        // 因为单链表，因为我们找的temp是位于添加位置的前一个节点，否则插入不了
+        HeroNode2 temp = head;
+        boolean flag = false; // flag标志添加的编号是否存在，默认为false
+        while (true) {
+            if (temp.next == null) { // 说明temp已经在链表的最后
+                break;
+            }
+            if (temp.next.no > heroNode.no) { // 位置找到，就在temp的后面插入
+                break;
+            } else if (temp.next.no == heroNode.no) {// 说明希望添加的heroNode的编号已然存在
+                flag = true; // 说明编号存在
+                break;
+            }
+            temp = temp.next; // 后移，遍历当前链表
+        }
+        // 判断flag的值
+        if (flag) { // 不能添加，说明编号存在
+            System.out.printf("准备插入的英雄的编号 %d 已经存在了，不能加入\n", heroNode.no);
+        } else {
+            // 插入到链表中，temp的后面
+            heroNode.next = temp.next;
+            heroNode.pre = temp;
+            if (temp.next != null) {
+                temp.next.pre = heroNode;
+            }
+            temp.next = heroNode;
+        }
+
     }
 
 }
