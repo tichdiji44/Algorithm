@@ -24,7 +24,6 @@ public class InsertSort {
         Date date2 = new Date();
         String date2Str = simpleDateFormat.format(date2);
         System.out.println("排序后的时间是=" + date2Str);
-        insertSort(arr);
     }
 
     // 插入排序
